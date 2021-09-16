@@ -1,0 +1,3941 @@
+openapi: 3.0.0
+info:
+  title: 1Date API
+  version: "0.01"
+  description: |-
+    # Introduction
+    1Date デートプランニングアプリのAPI
+    <h2>Client API</h2>
+    <table>
+      <thead>
+        <th>No.</th><th>Group</th><th>Method</th><th>Path</th><th>API名称</th>
+      </thead>
+      <tbody>
+        <tr><td>U-1</td><td>User</td><td>POST</td><td>/users</td><td>ユーザー登録</td></tr>
+        <tr><td>U-2</td><td>User</td><td>GET</td><td>/users/:user_id</td><td>ユーザー情報取得</td></tr>
+        <tr><td>U-3</td><td>User</td><td>PUT</td><td>/users/:user_id</td><td>プロフィール編集</td></tr>
+        <tr><td>U-4</td><td>User</td><td>DELETE</td><td>/users/:user_id</td><td>ユーザー退会</td></tr>
+        <tr><td>U-5</td><td>User</td><td>PUT</td><td>/users/:user_id/password</td><td>パスワード変更</td></tr>
+        <tr><td>U-6</td><td>User</td><td>PUT</td><td>/users/:user_id/1did</td><td>1DID更新</td></tr>
+        <tr><td>U-7</td><td>User</td><td>POST</td><td>/users/login</td><td>アプリにログイン</td></tr>
+        <tr><td>U-8</td><td>User</td><td>PUT</td><td>/users/:user_id/status</td><td>ユーザー公開・非公開</td></tr>
+        <tr><td>U-9</td><td>User</td><td>POST</td><td>/users/:user_id/profimage</td><td>プロフィール画像アップロード</td></tr>
+        <tr><td>U-10</td><td>User</td><td>GET</td><td>/users/:user_id/profimage</td><td>プロフィール画像ダウンロード</td></tr>
+        <tr><td>P-1</td><td>Plan</td><td>GET</td><td>/plans</td><td>デートプラン一覧取得</td></tr>
+        <tr><td>P-2</td><td>Plan</td><td>POST</td><td>/plans</td><td>デートプラン作成</td></tr>
+        <tr><td>P-3</td><td>Plan</td><td>GET</td><td>/plans/:plan_id</td><td>デートプラン詳細取得</td></tr>
+        <tr><td>P-4</td><td>Plan</td><td>PUT</td><td>/plans/:plan_id</td><td>デートプラン編集</td></tr>
+        <tr><td>P-5</td><td>Plan</td><td>DELETE</td><td>/plans/:plan_id</td><td>デートプラン削除</td></tr>
+        <tr><td>P-6</td><td>Plan</td><td>GET</td><td>/plans/search</td><td>デートプラン検索</td></tr>
+        <tr><td>P-7</td><td>Plan</td><td>PUT</td><td>/plans/:plan_id/status</td><td>デートプラン公開・非公開</td></tr>
+        <tr><td>P-8</td><td>Plan</td><td>PUT</td><td>/plans/:plan_id/datetime_status</td><td>デートプラン日時公開・非公開</td></tr>
+        <tr><td>S-1</td><td>Spot</td><td>POST</td><td>/spots</td><td>スポット作成</td></tr>
+        <tr><td>S-2</td><td>Spot</td><td>GET</td><td>/spots/search</td><td>スポット検索</td></tr>
+        <tr><td>L-1</td><td>Like</td><td>GET</td><td>/users/:user_id/likes</td><td>ユーザーがいいねしたプラン一覧取得</td></tr>
+        <tr><td>L-2</td><td>Like</td><td>POST</td><td>/plans/:plan_id/likes</td><td>プランのいいね登録</td></tr>
+        <tr><td>L-3</td><td>Like</td><td>DELETE</td><td>/plans/:plan_id/likes</td><td>プランのいいね解除</td></tr>
+        <tr><td>L-4</td><td>Like</td><td>GET</td><td>/plans/:plan_id/likes</td><td>プランにいいねしたユーザー一覧取得</td></tr>
+        <tr><td>FV-1</td><td>Favorite</td><td>GET</td><td>/users/:user_id/favorites</td><td>ユーザーがお気に入り登録したプラン一覧取得</td></tr>
+        <tr><td>FV-2</td><td>Favorite</td><td>POST</td><td>/plans/:plan_id/favorites</td><td>プランのお気に入り登録</td></tr>
+        <tr><td>FV-3</td><td>Favorite</td><td>DELETE</td><td>/plans/:plan_id/favorites</td><td>プランのお気に入り解除</td></tr>
+        <tr><td>FV-4</td><td>Favorite</td><td>GET</td><td>/plans/:plan_id/favorites</td><td>プランにお気に入り登録したユーザー一覧取得</td></tr>
+        <tr><td>C-1</td><td>Comment</td><td>GET</td><td>/plans/:plan_id/comments</td><td>コメント一覧取得</td></tr>
+        <tr><td>C-2</td><td>Comment</td><td>POST</td><td>/plans/:plan_id/comments</td><td>コメント投稿</td></tr>
+        <tr><td>C-3</td><td>Comment</td><td>DELETE</td><td>/plans/:plan_id/comments/:comment_id</td><td>コメント削除</td></tr>
+        <tr><td>F-1</td><td>Follow</td><td>GET</td><td>/users/:user_id/follows</td><td>フォローリスト取得</td></tr>
+        <tr><td>F-2</td><td>Follow</td><td>GET</td><td>/users/:user_id/followers</td><td>フォロワーリスト取得</td></tr>
+        <tr><td>F-3</td><td>Follow</td><td>POST</td><td>/users/:follow_user_id/followers</td><td>アカウントフォロー</td></tr>
+        <tr><td>F-4</td><td>Follow</td><td>DELETE</td><td>/users/:follow_user_id/followers</td><td>アカウントフォロー解除</td></tr>
+        <tr><td>H-1</td><td>History</td><td>GET</td><td>/plans/search/history</td><td>検索履歴一覧取得</td></tr>
+        <tr><td>H-2</td><td>History</td><td>DELETE</td><td>/plans/search/history/:history_id</td><td>検索履歴削除</td></tr>
+        <tr><td>N-1</td><td>Notification</td><td>GET</td><td>/users/:user_id/notifications</td><td>通知一覧取得</td></tr>
+        <tr><td>N-2</td><td>Notification</td><td>GET</td><td>/users/:user_id/notifications/setting</td><td>通知設定取得</td></tr>
+        <tr><td>N-3</td><td>Notification</td><td>PUT</td><td>/users/:user_id/notifications/setting</td><td>通知設定編集</td></tr>
+        <tr><td>N-4</td><td>Notification</td><td>GET</td><td>/information</td><td>運営からのお知らせ一覧取得</td></tr>
+        <tr><td>N-5</td><td>Notification</td><td>PUT</td><td>/users/:user_id/notifications/:notification_id</td><td>通知既読</td></tr>
+        <tr><td>Q-1</td><td>Question</td><td>POST</td><td>/questions</td><td>質問投稿</td></tr>
+        <tr><td>Q-2</td><td>Question</td><td>GET</td><td>/questions/faq</td><td>よくある質問一覧取得</td></tr>
+      </tbody>
+    </table>
+    <h2>Admin API</h2>
+    <table>
+      <thead>
+        <th>No.</th><th>Group</th><th>Method</th><th>Path</th><th>API名称</th>
+      </thead>
+      <tbody>
+        <tr><td>AU-1</td><td>User</td><td>GET</td><td>/admin/users</td><td>ユーザー一覧取得・検索</td></tr>
+        <tr><td>AU-2</td><td>User</td><td>GET</td><td>/admin/users/:user_id</td><td>ユーザー詳細取得</td></tr>
+        <tr><td>AU-3</td><td>User</td><td>PUT</td><td>/admin/users/:user_id/attribute</td><td>ユーザー属性編集</td></tr>
+        <tr><td>AP-1</td><td>Plan</td><td>GET</td><td>/admin/plans</td><td>デートプラン一覧取得・検索</td></tr>
+        <tr><td>AP-2</td><td>Plan</td><td>GET</td><td>/admin/plans/:plan_id</td><td>デートプラン詳細取得</td></tr>
+        <tr><td>AP-1</td><td>Plan</td><td>GET</td><td>/admin/spots</td><td>デートスポット一覧取得・検索</td></tr>
+        <tr><td>AP-2</td><td>Plan</td><td>GET</td><td>/admin/spots/:spot_id</td><td>デートスポット詳細取得</td></tr>
+        <tr><td>AN-1</td><td>Notification</td><td>POST</td><td>/admin/information</td><td>運営からのお知らせ送信</td></tr>
+        <tr><td>AQ-1</td><td>Question</td><td>PUT</td><td>/admin/questions/:question_id</td><td>質問回答登録</td></tr>
+        <tr><td>AQ-2</td><td>Question</td><td>PUT</td><td>/admin/questions/:question_id/faq</td><td>よくある質問に登録</td></tr>
+        <tr><td>AL-1</td><td>Staff</td><td>POST</td><td>/admin/staff/login</td><td>管理画面ログイン</td></tr>
+        <tr><td>AL-2</td><td>Staff</td><td>PUT</td><td>/admin/staff/logout</td><td>管理画面ログアウト</td></tr>
+      </tbody>
+    </table>
+servers:
+  - url: http://localhost:3080
+    description: ローカル
+  - url: https://one-date-dev.herokuapp.com
+    description: 検証環境
+tags:
+  - name: User
+    description: ユーザー関連API
+  - name: Plan
+    description: デートプラン関連API
+  - name: Spot
+    description: スポット関連API
+  - name: Like
+    description: いいね関連API
+  - name: Favorite
+    description: お気に入り関連API
+  - name: Comment
+    description: コメント関連API
+  - name: Follow
+    description: フォロー関連API
+  - name: History
+    description: 検索履歴関連API
+  - name: Notification
+    description: 通知関連API
+  - name: Question
+    description: Q&A関連API
+  - name: User (Admin)
+    description: 管理画面 ユーザー関連API
+  - name: Notification (Admin)
+    description: 管理画面 通知関連API
+  - name: Question (Admin)
+    description: 管理画面 Q&A関連API
+  - name: Staff (Admin)
+    description: 管理画面 スタッフ関連API
+x-tagGroups:
+  - name: Client API
+    tags:
+      - User
+      - Plan
+      - Spot
+      - Like
+      - Favorite
+      - Comment
+      - Follow
+      - History
+      - Notification
+      - Question
+  - name: Admin API
+    tags:
+      - User (Admin)
+      - Plan (Admin)
+      - Notification (Admin)
+      - Question (Admin)
+      - Staff (Admin)
+
+paths:
+
+  # ------------------------------------------------------------------------------------------------------------------------
+  # Client API
+  # ------------------------------------------------------------------------------------------------------------------------
+
+  /users:
+    # ------------------------------
+    # POST /users/:id ユーザー登録API
+    # ------------------------------
+    post:
+      tags:
+        - User
+      summary: ユーザー登録
+      operationId: U1
+      description: |-
+        サインアップ(ユーザー登録)を行う。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/users' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "name": "デートマスター",
+                  "sex": "man",
+                  "age": 25,
+                  "area": "tokyo",
+                  "mail_address": "onedate@xxx.com",
+                  "password": "abcd1234",
+                  "onedate_id": "datemaster"
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - name
+                - sex
+                - age
+                - area
+                - mail_address
+                - password
+              properties:
+                name:
+                  $ref: "#/components/schemas/UserName"
+                sex:
+                  $ref: "#/components/schemas/Sex"
+                age:
+                  $ref: "#/components/schemas/Age"
+                area:
+                  $ref: "#/components/schemas/Area"
+                mail_address:
+                  $ref: "#/components/schemas/MailAddress"
+                password:
+                  $ref: "#/components/schemas/Password"
+                onedate_id:
+                  $ref: "#/components/schemas/1dId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}:
+    # ------------------------------
+    # GET /users/:user_id ユーザー情報取得API
+    # ------------------------------
+    get:
+      tags:
+        - User
+      summary: ユーザー情報取得
+      operationId: U2
+      description: |-
+        ユーザーのプロフィール情報を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+            -H 'Authorization: Bearer xxxxxxxxxx'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - user_id
+                  - name
+                  - onedate_id
+                  - profile
+                  - sex
+                  - age
+                  - area
+                  - address
+                  - mail_address
+                  - user_attr
+                  - status
+                  - user_image_url
+                  - plan_count
+                  - favored_plan_count
+                  - follow_count
+                  - follower_count
+                  - is_follow
+                properties:
+                  user_id:
+                    $ref: "#/components/schemas/UserId"
+                  name:
+                    $ref: "#/components/schemas/UserName"
+                  onedate_id:
+                    $ref: "#/components/schemas/1dId"
+                  profile:
+                    $ref: "#/components/schemas/Profile"
+                  sex:
+                    $ref: "#/components/schemas/Sex"
+                  age:
+                    $ref: "#/components/schemas/Age"
+                  area:
+                    $ref: "#/components/schemas/Area"
+                  address:
+                    $ref: "#/components/schemas/Address"
+                  mail_address:
+                    $ref: "#/components/schemas/MailAddress"
+                  user_attr:
+                    $ref: "#/components/schemas/UserAttr"
+                  status:
+                    $ref: "#/components/schemas/UserStatus"
+                  user_image_url:
+                    $ref: "#/components/schemas/UserImageUrl"
+                  plan_count:
+                    $ref: "#/components/schemas/PlanCount"
+                  favored_plan_count:
+                    $ref: "#/components/schemas/FavoredPlanCount"
+                  follow_count:
+                    $ref: "#/components/schemas/FollowCount"
+                  follower_count:
+                    $ref: "#/components/schemas/FollowerCount"
+                  is_follow:
+                    $ref: "#/components/schemas/IsFollow"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # PUT /users/:user_id プロフィール編集API
+    # ------------------------------
+    put:
+      tags:
+        - User
+      summary: プロフィール編集
+      operationId: U3
+      description: |-
+        ユーザーのプロフィール(登録情報)の変更を行う。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "name": "デートマスター",
+                  "profile": "おすすめデートコースをご紹介します。"
+                  "sex": "man",
+                  "age": 25,
+                  "area": "tokyo",
+                  "address": "東京都渋谷区",
+                  "mail_address": "onedate@xxx.com",
+                  "onedate_id": "datemaster"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: "#/components/schemas/UserName"
+                profile:
+                  $ref: "#/components/schemas/Profile"
+                sex:
+                  $ref: "#/components/schemas/Sex"
+                age:
+                  $ref: "#/components/schemas/Age"
+                area:
+                  $ref: "#/components/schemas/Area"
+                address:
+                  $ref: "#/components/schemas/Address"
+                mail_address:
+                  $ref: "#/components/schemas/MailAddress"
+                onedate_id:
+                  $ref: "#/components/schemas/1dId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # DELETE /users/:user_id ユーザー退会API
+    # ------------------------------
+    delete:
+      tags:
+        - User
+      summary: ユーザー退会
+      operationId: U4
+      description: |-
+        サービスから退会する(ユーザーステータスを「退会」に変更し、個人情報を消去する)。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/password:
+    # ------------------------------
+    # PUT /users/:user_id/password パスワード変更API
+    # ------------------------------
+    put:
+      tags:
+        - User
+      summary: パスワード変更
+      operationId: U5
+      description: |-
+        ユーザーのパスワードの変更を行う。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/password' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "old_password": "abcd1234",
+                  "new_password": "efgh5678"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - old_password
+                - new_password
+              properties:
+                old_password:
+                  allOf:
+                    - $ref: "#/components/schemas/Password"
+                  description: 現在のパスワード
+                new_password:
+                  allOf:
+                    - $ref: "#/components/schemas/Password"
+                  description: 新しいパスワード
+                  example: "efgh5678"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/1did:
+    # ------------------------------
+    # PUT /users/:user_id/1did 1DID更新API
+    # ------------------------------
+    put:
+      tags:
+        - User
+      summary: 1DID更新
+      operationId: U6
+      description: |-
+        1DID未登録ユーザーに1DIDを登録または、登録済みユーザー1DIDの変更を行う。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/1did' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "1did": "datemaster"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - 1did
+              properties:
+                1did:
+                  $ref: "#/components/schemas/1dId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/login:
+    # ------------------------------
+    # POST /users/login アプリにログイン
+    # ------------------------------
+    post:
+      tags:
+        - User
+      summary: アプリにログイン
+      operationId: U7
+      description: |-
+        メールアドレスまたは1DIDでアプリにログインする。\
+        メーアドレスと1DIDはどちらか一方のみ指定可能かつどちらか一方必須。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL - メールアドレスでログイン
+          source: |
+            curl -X PUT 'http://localhost:3080/users/login \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "mail_address": "datemaster",
+                  "password": "abcd1234"
+                }'
+        - lang: Shell
+          label: cURL - 1DIDでログイン
+          source: |
+            curl -X PUT 'http://localhost:3080/users/login \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "1did": "datemaster",
+                  "password": "abcd1234"
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - password
+              properties:
+                mail_address:
+                  $ref: "#/components/schemas/MailAddress"
+                1did:
+                  $ref: "#/components/schemas/1dId"
+                password:
+                  $ref: "#/components/schemas/Password"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - user_id
+                  - name
+                  - user_image_url
+                properties:
+                  user_id:
+                    $ref: "#/components/schemas/UserId"
+                  name:
+                    $ref: "#/components/schemas/UserName"
+                  user_image_url:
+                    $ref: "#/components/schemas/UserImageUrl"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/status:
+    # ------------------------------
+    # PUT /users/:user_id/status ユーザー公開・非公開API
+    # ------------------------------
+    put:
+      tags:
+        - User
+      summary: ユーザー公開・非公開
+      operationId: U8
+      description: |-
+        ユーザーの公開・非公開ステータスを変更する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/status' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "status": "private"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  allOf:
+                    - $ref: "#/components/schemas/UserStatus"
+                  description: 変更後のユーザーステータス
+                  enum: [public, private]
+                  format: public(公開) / private(非公開)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/profimage:
+    # ------------------------------
+    # POST /users/:user_id/profimage プロフィール画像アップロードAPI
+    # ------------------------------
+    post:
+      tags:
+        - User
+      summary: プロフィール画像アップロード
+      operationId: U9
+      description: |-
+        プロフィール画像をアップロードする。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/profimage' \
+              -H 'Contents-Type: multipart/form-data' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -F 'file=@"/Users/user/Desktop/icon.jpg"'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "multipart/form-data":
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: アップロードするファイル
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # GET /users/:user_id/profimage プロフィール画像取得API
+    # ------------------------------
+    get:
+      tags:
+        - User
+      summary: プロフィール画像取得
+      operationId: U10
+      description: |-
+        プロフィール画像のURLを取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/profimage' \
+            -H 'Authorization: Bearer xxxxxxxxxx'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      responses:
+        200:
+          description: 画像ファイル
+          content:
+            "image/jpg":
+              schema:
+                type: string
+                format: binary
+            "image/png":
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans:
+    # ------------------------------
+    # GET /plans デートプラン一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Plan
+      summary: デートプラン一覧取得
+      operationId: P1
+      description: |-
+        デートプラン一覧を取得する。\
+        都道府県で絞り込むことが可能。\
+        ユーザーIDを指定した場合、当該ユーザーが作成したプラン一覧のみを取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL - 通常のデートプラン一覧取得(ホーム画面)
+          source: |-
+            curl 'http://localhost:3080/plans?area=tokyo&limit=10&offset=10&sort=desc' \
+              -H 'Authorization: Bearer xxxxxxxxxx'
+        - lang: Shell
+          label: cURL - ユーザーが作成したデートプラン一覧取得
+          source: |-
+            curl 'http://localhost:3080/plans?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2&limit=10&offset=10&sort=desc'
+              -H 'Authorization: Bearer xxxxxxxxxx'
+      parameters:
+        - $ref: "#/components/parameters/AreaRequiredQuery"
+        - $ref: "#/components/parameters/UserIdQuery"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_list
+                  - total
+                properties:
+                  plan_list:
+                    $ref: "#/components/schemas/PlanList"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # POST /plans デートプラン作成API
+    # ------------------------------
+    post:
+      tags:
+        - Plan
+      summary: デートプラン作成
+      operationId: P2
+      description: |-
+        デートプランを作成する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/plans' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d 'Content-Type: application/json' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2",
+                  "title": "記念日都内デート",
+                  "description": "彼女の好きな場所を巡るプラン",
+                  "date": "2019-12-24",
+                  "need_time": 120,
+                  "status": "public",
+                  "transportation": [
+                    "car",
+                    "train"
+                  ],
+                  "spots": [
+                    {
+                      "order": 1,
+                      "need_time": 60,
+                      "spot_name": "東京タワー",
+                      "description": "東京タワー",
+                      "latitude": 35.6585805,
+                      "longitude": 139.7432442,
+                      "images": [
+                        "https://maps.googleapis.com/maps/api/place/photo/1.png",
+                        "https://maps.googleapis.com/maps/api/place/photo/2.png"
+                      ],
+                      "category": "カフェ",
+                      "opening_hours": "10:00-19:00",
+                      "tel": "080-000-000",
+                      "site_url": "https://hoge.com",
+                      "place_id": "ChIJc_r4wV6LGGAR6WuKXZsOKpI",
+                      "icon_url": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_1/restaurant-1.png"
+                    },
+                    {
+                      "order": 2,
+                      "need_time": 60,
+                      "spot_id": "f0cc6cc56eb78c3cd329e3c0a6b2b6a6"
+                    }
+                  ]
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_id
+                - title
+                - status
+                - datetime_status
+                - spots
+              properties:
+                user_id:
+                  $ref: "#/components/schemas/UserId"
+                title:
+                  $ref: "#/components/schemas/Title"
+                description:
+                  $ref: "#/components/schemas/Description"
+                date:
+                  $ref: "#/components/schemas/Date"
+                need_time:
+                  $ref: "#/components/schemas/NeedTime"
+                status:
+                  allOf:
+                    - $ref: "#/components/schemas/PlanStatus"
+                  description: デートプランステータス
+                  enum: [public, private]
+                  format: public(公開) / private(非公開)
+                datetime_status:
+                  allOf:
+                    - $ref: "#/components/schemas/PlanDatetimeStatus"
+                  description: デートプラン日時公開ステータス
+                  enum: [public, private]
+                  format: public(公開) / private(非公開)
+                transportation:
+                  $ref: "#/components/schemas/Transportation"
+                spots:
+                  description: |
+                    デートで巡るスポットのリスト \
+                    既に存在するスポットを含める場合は `spot_id` を指定すればその他スポット情報は登録不要 \
+                    新しくスポットを登録する場合は `spot_id` を指定せずその他スポット情報の入力が必要
+                  type: object
+                  required:
+                    - order
+                  properties:
+                    order:
+                      $ref: "#/components/schemas/Order"
+                    need_time:
+                      $ref: "#/components/schemas/SpotNeedTime"
+                    spot_id:
+                      $ref: "#/components/schemas/SpotId"
+                    spot_name:
+                      $ref: "#/components/schemas/SpotName"
+                    description:
+                      $ref: "#/components/schemas/SpotDescription"
+                    latitude:
+                      $ref: "#/components/schemas/Latitude"
+                    longitude:
+                      $ref: "#/components/schemas/Longitude"
+                    images:
+                      $ref: "#/components/schemas/Images"
+                    category:
+                      $ref: "#/components/schemas/Category"
+                    opening_hours:
+                      $ref: "#/components/schemas/OpeningHours"
+                    tel:
+                      $ref: "#/components/schemas/Tel"
+                    site_url:
+                      $ref: "#/components/schemas/SiteUrl"
+                    place_id:
+                      $ref: "#/components/schemas/PlaceId"
+                    icon_url:
+                      $ref: "#/components/schemas/IconUrl"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}:
+    # ------------------------------
+    # GET /plans/:plan_id デートプラン詳細取得API
+    # ------------------------------
+    get:
+      tags:
+        - Plan
+      summary: デートプラン詳細取得
+      operationId: P3
+      description: |-
+        デートプランの詳細を取得する。\
+        自分がいいね済みかどうかを取得するためにユーザーIDを指定する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_id
+                  - title
+                  - description
+                  - date
+                  - transportation
+                  - need_time
+                  - status
+                  - datetime_status
+                  - spots
+                  - user_id
+                  - user_name
+                  - user_image_url
+                  - user_attr
+                  - like_count
+                  - comment_count
+                  - is_liked
+                  - is_follow
+                  - create_date
+                properties:
+                  plan_id:
+                    $ref: "#/components/schemas/PlanId"
+                  title:
+                    $ref: "#/components/schemas/Title"
+                  description:
+                    $ref: "#/components/schemas/Description"
+                  date:
+                    $ref: "#/components/schemas/Date"
+                  transportation:
+                    $ref: "#/components/schemas/Transportation"
+                  need_time:
+                    $ref: "#/components/schemas/NeedTime"
+                  status:
+                    $ref: "#/components/schemas/PlanStatus"
+                  datetime_status:
+                    $ref: "#/components/schemas/PlanDatetimeStatus"
+                  spots:
+                    $ref: "#/components/schemas/Spots"
+                  user_id:
+                    $ref: "#/components/schemas/UserId"
+                  user_name:
+                    $ref: "#/components/schemas/UserName"
+                  user_image_url:
+                    $ref: "#/components/schemas/UserImageUrl"
+                  user_attr:
+                    $ref: "#/components/schemas/UserAttr"
+                  like_count:
+                    $ref: "#/components/schemas/LikeCount"
+                  comment_count:
+                    $ref: "#/components/schemas/CommentCount"
+                  is_liked:
+                    $ref: "#/components/schemas/IsLiked"
+                  is_follow:
+                    $ref: "#/components/schemas/IsFollow"
+                  create_date:
+                    $ref: "#/components/schemas/CreateDate"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # PUT /plans/:plan_id デートプラン編集API
+    # ------------------------------
+    put:
+      tags:
+        - Plan
+      summary: デートプラン編集
+      operationId: P4
+      description: |-
+        デートプランを編集する。\
+        プラン作成者以外は編集できない。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d 'Content-Type: application/json' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2",
+                  "title": "記念日都内デート",
+                  "description": "彼女の好きな場所を巡るプラン",
+                  "date": "2019-12-24",
+                  "need_time": 120,
+                  "transportation": [
+                    "car",
+                    "train"
+                  ],
+                  "spots": [
+                    {
+                      "order": 1,
+                      "need_time": 60,
+                      "spot_name": "東京タワー",
+                      "description": "東京タワー",
+                      "latitude": 35.6585805,
+                      "longitude": 139.7432442,
+                      "images": [
+                        "https://maps.googleapis.com/maps/api/place/photo/1.png",
+                        "https://maps.googleapis.com/maps/api/place/photo/2.png"
+                      ],
+                      "category": "カフェ",
+                      "opening_hours": "10:00-19:00",
+                      "tel": "080-000-000",
+                      "site_url": "https://hoge.com",
+                      "place_id": "ChIJc_r4wV6LGGAR6WuKXZsOKpI",
+                      "icon_url": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_1/restaurant-1.png"
+                    },
+                    {
+                      "order": 2,
+                      "need_time": 60,
+                      "spot_id": "f0cc6cc56eb78c3cd329e3c0a6b2b6a6"
+                    }
+                  ]
+                }'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                user_id:
+                  $ref: "#/components/schemas/UserId"
+                title:
+                  $ref: "#/components/schemas/Title"
+                description:
+                  $ref: "#/components/schemas/Description"
+                date:
+                  $ref: "#/components/schemas/Date"
+                need_time:
+                  $ref: "#/components/schemas/NeedTime"
+                transportation:
+                  $ref: "#/components/schemas/Transportation"
+                spots:
+                  description: |
+                    デートで巡るスポットのリスト \
+                    既に存在するスポットを含める場合は `spot_id` を指定すればその他スポット情報は登録不要 \
+                    新しくスポットを登録する場合は `spot_id` を指定せずその他スポット情報の入力が必要
+                  type: object
+                  required:
+                    - order
+                  properties:
+                    order:
+                      $ref: "#/components/schemas/Order"
+                    need_time:
+                      $ref: "#/components/schemas/SpotNeedTime"
+                    spot_id:
+                      $ref: "#/components/schemas/SpotId"
+                    spot_name:
+                      $ref: "#/components/schemas/SpotName"
+                    description:
+                      $ref: "#/components/schemas/SpotDescription"
+                    latitude:
+                      $ref: "#/components/schemas/Latitude"
+                    longitude:
+                      $ref: "#/components/schemas/Longitude"
+                    images:
+                      $ref: "#/components/schemas/Images"
+                    category:
+                      $ref: "#/components/schemas/Category"
+                    opening_hours:
+                      $ref: "#/components/schemas/OpeningHours"
+                    tel:
+                      $ref: "#/components/schemas/Tel"
+                    site_url:
+                      $ref: "#/components/schemas/SiteUrl"
+                    place_id:
+                      $ref: "#/components/schemas/PlaceId"
+                    icon_url:
+                      $ref: "#/components/schemas/IconUrl"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # DELETE /plans/:plan_id デートプラン削除API
+    # ------------------------------
+    delete:
+      tags:
+        - Plan
+      summary: デートプラン削除
+      operationId: P5
+      description: |-
+        デートプランを削除する。\
+        プラン作成者以外は削除できない。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/plan/fc0451268203261d216409a33aea327d?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/search:
+    # ------------------------------
+    # GET /plans/search デートプラン検索API
+    # ------------------------------
+    get:
+      tags:
+        - Plan
+      summary: デートプラン検索
+      operationId: P6
+      description: |-
+        検索キーワードをタイトルまたは説明文に含むデートプランを検索する。\
+        検索キーワードは検索履歴としてDBに保存する(検索したことがある場合は古い履歴を削除する)。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/plans/search?keyword=公園&user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2&limit=10&offset=10&sort=desc'
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/KeywordRequiredQuery"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_list
+                  - total
+                properties:
+                  plan_list:
+                    $ref: "#/components/schemas/PlanList"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}/status:
+    # ------------------------------
+    # PUT /plans/:plan_id/status デートプラン公開・非公開API
+    # ------------------------------
+    put:
+      tags:
+        - Plan
+      summary: デートプラン公開・非公開
+      operationId: P7
+      description: |-
+        デートプランの公開・非公開ステータスを変更する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/status?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d 'Content-Type: application/json' \
+              -d \
+                '{
+                  "status": "private"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  allOf:
+                    - $ref: "#/components/schemas/PlanStatus"
+                  description: 変更後のデートプランステータス
+                  enum: [public, private]
+                  format: public(公開) / private(非公開)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}/datetime_status:
+    # ------------------------------
+    # PUT /plans/:plan_id/datetime_status デートプラン日時公開・非公開API
+    # ------------------------------
+    put:
+      tags:
+        - Plan
+      summary: デートプラン日時公開・非公開
+      operationId: P8
+      description: |-
+        デートプラン日時の公開・非公開ステータスを変更する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/datetime_status?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d 'Content-Type: application/json' \
+              -d \
+                '{
+                  "datetime_status": "private"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - datetime_status
+              properties:
+                datetime_status:
+                  allOf:
+                    - $ref: "#/components/schemas/PlanDatetimeStatus"
+                  description: 変更後のデートプラン日時公開ステータス
+                  enum: [public, private]
+                  format: public(公開) / private(非公開)
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /spots:
+    # ------------------------------
+    # POST /spots スポット作成API
+    # ------------------------------
+    post:
+      tags:
+        - Spot
+      summary: スポット作成
+      operationId: S1
+      description: |-
+        スポットを作成する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/spots' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d 'Content-Type: application/json' \
+              -d \
+                '{
+                  "spot_name": "東京タワー",
+                  "description": "東京タワー",
+                  "latitude": 35.6585805,
+                  "longitude": 139.7432442,
+                  "images": "/spots/f0cc6cc56eb78c3cd329e3c0a6b2b6a6.png",
+                  "category": "カフェ",
+                  "opening_hours": "10:00-19:00",
+                  "tel": "080-000-000",
+                  "site_url": "https://hoge.com",
+                  "place_id": "ChIJc_r4wV6LGGAR6WuKXZsOKpI",
+                  "icon_url": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_1/restaurant-1.png"
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - spot_name
+                - latitude
+                - longitude
+              properties:
+                spot_name:
+                  $ref: "#/components/schemas/SpotName"
+                description:
+                  $ref: "#/components/schemas/SpotDescription"
+                latitude:
+                  $ref: "#/components/schemas/Latitude"
+                longitude:
+                  $ref: "#/components/schemas/Longitude"
+                images:
+                  $ref: "#/components/schemas/Images"
+                category:
+                  $ref: "#/components/schemas/Category"
+                opening_hours:
+                  $ref: "#/components/schemas/OpeningHours"
+                tel:
+                  $ref: "#/components/schemas/Tel"
+                site_url:
+                  $ref: "#/components/schemas/SiteUrl"
+                place_id:
+                  $ref: "#/components/schemas/PlaceId"
+                icon_url:
+                  $ref: "#/components/schemas/IconUrl"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /spots/search:
+    # ------------------------------
+    # GET /spots/search スポット検索API
+    # ------------------------------
+    get:
+      tags:
+        - Spot
+      summary: スポット検索
+      operationId: S2
+      description: |-
+        検索キーワードをタイトル・説明文・カテゴリのいずれかに含むデートプランを検索する。\
+        **[TBD] 緯度経度による範囲検索・カテゴリ検索**
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/spots/search?keyword=公園'
+            -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/KeywordRequiredQuery"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - spot_list
+                  - total
+                properties:
+                  spot_list:
+                    $ref: "#/components/schemas/SpotList"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/search/history:
+    # ------------------------------
+    # GET /plans/search/history 検索履歴一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - History
+      summary: 検索履歴一覧取得
+      operationId: H1
+      description: |-
+        ユーザーがデートプラン検索で検索したキーワードの一覧を検索日時降順固定で取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/plans/search/history?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2&limit=10&offset=10' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - history_list
+                  - total
+                properties:
+                  history_list:
+                    type: array
+                    description: 検索履歴リスト
+                    items:
+                      type: object
+                      required:
+                        - history_id
+                        - word
+                        - search_date
+                      properties:
+                        history_id:
+                          $ref: "#/components/schemas/HistoryId"
+                        word:
+                          $ref: "#/components/schemas/Word"
+                        search_date:
+                          $ref: "#/components/schemas/SearchDate"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/search/history/{history_id}:
+    # ------------------------------
+    # DELETE /plans/search/history/:history_id 検索履歴削除API
+    # ------------------------------
+    delete:
+      tags:
+        - History
+      summary: 検索履歴削除
+      operationId: H2
+      description: |-
+        デートプラン検索の検索履歴を削除する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/plans/search/history/1?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/HistoryIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/likes:
+    # ------------------------------
+    # GET /users/:user_id/likes ユーザーがいいねしたプラン一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Like
+      summary: ユーザーがいいねしたプラン一覧取得
+      operationId: L1
+      description: |-
+        ユーザーがいいねしたデートプランの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/likes?limit=10&offset=10&sort=desc'\
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_list
+                  - total
+                properties:
+                  plan_list:
+                    $ref: "#/components/schemas/PlanList"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}/likes:
+    # ------------------------------
+    # POST /plans/:plan_id/likes プランのいいね登録API
+    # ------------------------------
+    post:
+      tags:
+        - Like
+      summary: プランのいいね登録
+      operationId: L2
+      description: |-
+        デートプランにいいねする。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/likes' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_id
+              properties:
+                user_id:
+                  $ref: "#/components/schemas/UserId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # DELETE /plans/:plan_id/likes プランのいいね解除API
+    # ------------------------------
+    delete:
+      tags:
+        - Like
+      summary: プランのいいね解除
+      operationId: L3
+      description: |-
+        デートプランのいいねを解除する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/likes?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2'
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # GET /plans/:plan_id/likes プランにいいねしたユーザー一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Like
+      summary: プランにいいねしたユーザー一覧取得A
+      operationId: L4
+      description: |-
+        デートプランにいいねしたユーザーの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl -X DELETE 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/likes'
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - liked_user_list
+                  - total
+                properties:
+                  liked_user_list:
+                    type: array
+                    description: いいねしたユーザーリスト
+                    items:
+                      type: object
+                      required:
+                        - user_id
+                        - user_name
+                        - user_image_url
+                        - user_attr
+                      properties:
+                        user_id:
+                          $ref: "#/components/schemas/UserId"
+                        user_name:
+                          $ref: "#/components/schemas/UserName"
+                        user_image_url:
+                          $ref: "#/components/schemas/UserImageUrl"
+                        user_attr:
+                          $ref: "#/components/schemas/UserAttr"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/favorites:
+    # ------------------------------
+    # GET /users/:user_id/favorites ユーザーがお気に入り登録したプラン一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Favorite
+      summary: ユーザーがお気に入り登録したプラン一覧取得
+      operationId: FV1
+      description: |-
+        ユーザーがお気に入り登録（マイプランに保存）したデートプランの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/favorites?limit=10&offset=10&sort=desc'
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_list
+                  - total
+                properties:
+                  plan_list:
+                    $ref: "#/components/schemas/PlanList"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}/favorites:
+    # ------------------------------
+    # POST /plans/:plan_id/favorites プランのお気に入り登録API
+    # ------------------------------
+    post:
+      tags:
+        - Favorite
+      summary: プランのお気に入り登録
+      operationId: FV2
+      description: |-
+        デートプランをお気に入り登録（マイプランに保存）する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/favorites' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_id
+              properties:
+                user_id:
+                  $ref: "#/components/schemas/UserId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # DELETE /plans/:plan_id/favorites プランのお気に入り解除API
+    # ------------------------------
+    delete:
+      tags:
+        - Favorite
+      summary: プランのお気に入り解除
+      operationId: FV3
+      description: |-
+        デートプランのお気に入り登録を解除（マイプランから削除）する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/favorites?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # GET /plans/:plan_id/favorites プランをお気に入り登録したユーザー一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Favorite
+      summary: プランをお気に入り登録したユーザー一覧取得A
+      operationId: FV4
+      description: |-
+        デートプランをお気に入り登録（マイプランに保存）したユーザーの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl -X DELETE 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/favorites' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - liked_user_list
+                  - total
+                properties:
+                  favored_user_list:
+                    type: array
+                    description: お気に入り登録したユーザーリスト
+                    items:
+                      type: object
+                      required:
+                        - user_id
+                        - user_name
+                        - user_image_url
+                        - user_attr
+                      properties:
+                        user_id:
+                          $ref: "#/components/schemas/UserId"
+                        user_name:
+                          $ref: "#/components/schemas/UserName"
+                        user_image_url:
+                          $ref: "#/components/schemas/UserImageUrl"
+                        user_attr:
+                          $ref: "#/components/schemas/UserAttr"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}/comments:
+    # ------------------------------
+    # GET /plans/:plan_id/comments コメント一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Comment
+      summary: コメント一覧取得
+      operationId: C1
+      description: |-
+        デートプランに投稿されたコメントの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/comments?limit=10&offset=10&sort=desc' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - comment_list
+                  - total
+                properties:
+                  comment_list:
+                    type: array
+                    description: コメントリスト
+                    items:
+                      type: object
+                      required:
+                        - comment_id
+                        - comment
+                        - post_date
+                        - user_id
+                        - user_name
+                        - user_image_url
+                        - user_attr
+                      properties:
+                        comment_id:
+                          $ref: "#/components/schemas/CommentId"
+                        comment:
+                          $ref: "#/components/schemas/Comment"
+                        post_date:
+                          $ref: "#/components/schemas/PostDate"
+                        user_id:
+                          $ref: "#/components/schemas/UserId"
+                        user_name:
+                          $ref: "#/components/schemas/UserName"
+                        user_image_url:
+                          $ref: "#/components/schemas/UserImageUrl"
+                        user_attr:
+                          $ref: "#/components/schemas/UserAttr"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # POST /plans/:plan_id/comments コメント投稿API
+    # ------------------------------
+    post:
+      tags:
+        - Comment
+      summary: コメント投稿
+      operationId: C2
+      description: |-
+        デートプランにコメントを投稿する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/comments' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2",
+                  "comment": "楽しそう！"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_id
+                - comment
+              properties:
+                user_id:
+                  $ref: "#/components/schemas/UserId"
+                comment:
+                  $ref: "#/components/schemas/Comment"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /plans/{plan_id}/comments/{comment_id}:
+    # ------------------------------
+    # DELETE /plans/:plan_id/comments/:comment_id コメント削除API
+    # ------------------------------
+    delete:
+      tags:
+        - Comment
+      summary: コメント削除
+      operationId: C3
+      description: |-
+        デートプランに投稿したコメントを削除する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/plans/fc0451268203261d216409a33aea327d/comments/fb77e9746c677d52a9d6119b5d0b729a?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2'
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+        - $ref: "#/components/parameters/CommentIdPath"
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/follows:
+    # ------------------------------
+    # GET /users/:user_id/follows フォローリスト取得API
+    # ------------------------------
+    get:
+      tags:
+        - Follow
+      summary: フォローリスト取得
+      operationId: F1
+      description: |-
+        ユーザーがフォローしているアカウントの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/follows?limit=10&offset=10&sort=desc' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - follow_list
+                  - total
+                properties:
+                  follow_list:
+                    type: array
+                    description: フォローしているユーザーリスト
+                    items:
+                      type: object
+                      required:
+                        - user_id
+                        - user_name
+                        - user_image_url
+                        - user_attr
+                        - plan_count
+                        - follow_date
+                        - is_followed
+                      properties:
+                        user_id:
+                          $ref: "#/components/schemas/UserId"
+                        user_name:
+                          $ref: "#/components/schemas/UserName"
+                        user_image_url:
+                          $ref: "#/components/schemas/UserImageUrl"
+                        user_attr:
+                          $ref: "#/components/schemas/UserAttr"
+                        plan_count:
+                          $ref: "#/components/schemas/PlanCount"
+                        follow_date:
+                          $ref: "#/components/schemas/FollowDate"
+                        is_followed:
+                          $ref: "#/components/schemas/IsFollowed"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/followers:
+    # ------------------------------
+    # GET /users/:user_id/followers フォロワーリスト取得API
+    # ------------------------------
+    get:
+      tags:
+        - Follow
+      summary: フォロワーリスト取得
+      operationId: F2
+      description: |-
+        ユーザーのフォロワーの一覧を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/followers?limit=10&offset=10&sort=desc' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - follower_list
+                  - total
+                properties:
+                  follower_list:
+                    type: array
+                    description: フォロワーリスト
+                    items:
+                      type: object
+                      required:
+                        - user_id
+                        - user_name
+                        - user_image_url
+                        - user_attr
+                        - plan_count
+                        - followed_date
+                        - is_follow
+                      properties:
+                        user_id:
+                          $ref: "#/components/schemas/UserId"
+                        user_name:
+                          $ref: "#/components/schemas/UserName"
+                        user_image_url:
+                          $ref: "#/components/schemas/UserImageUrl"
+                        user_attr:
+                          $ref: "#/components/schemas/UserAttr"
+                        plan_count:
+                          $ref: "#/components/schemas/PlanCount"
+                        followed_date:
+                          $ref: "#/components/schemas/FollowedDate"
+                        is_follow:
+                          $ref: "#/components/schemas/IsFollow"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{follow_user_id}/followers:
+    # ------------------------------
+    # POST /users/:follow_user_id/followers アカウントフォローAPI
+    # ------------------------------
+    post:
+      tags:
+        - Follow
+      summary: アカウントフォロー
+      operationId: F3
+      description: |-
+        アカウントをフォローする。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/users/15bea3ae-0251-4d0a-9b1f-d44c26a67449/followers' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2"
+                }'
+      parameters:
+        - name: follow_user_id
+          in: path
+          description: フォロー対象のユーザーID
+          required: true
+          schema:
+            $ref: "#/components/schemas/TargetUserId"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_id
+              properties:
+                user_id:
+                  allOf:
+                    - $ref: "#/components/schemas/UserId"
+                  description: フォロー操作をするユーザーID
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # DELETE /users/:follow_user_id/followers アカウントフォロー解除API
+    # ------------------------------
+    delete:
+      tags:
+        - Follow
+      summary: アカウントフォロー解除
+      operationId: F4
+      description: |-
+        アカウントのフォローを解除する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X DELETE 'http://localhost:3080/users/15bea3ae-0251-4d0a-9b1f-d44c26a67449/followers?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - name: follow_user_id
+          in: path
+          description: フォロー解除対象のユーザーID
+          required: true
+          schema:
+            $ref: "#/components/schemas/TargetUserId"
+        - name: user_id
+          in: query
+          description: フォロー解除を行うユーザーID
+          required: true
+          schema:
+            $ref: "#/components/schemas/UserId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/notifications:
+    # ------------------------------
+    # GET /user/:user_id/notifications 通知一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Notification
+      summary: 通知一覧取得
+      operationId: N1
+      description: |-
+        ユーザーの通知の一覧を取得する。\
+        通知日時の降順で返却する。
+
+        * レスポンス例
+
+        ```
+        {
+          "notification_list": [
+            // フォロー通知(plan_id,plan_title,plan_commentが空)
+            {
+              "notification_id": 1,
+              "notification_category": "follow",
+              "notification_date": "2019-01-01T18:00:00.000Z",
+              "plan_id": "",
+              "plan_title": "",
+              "plan_comment": "",
+              "user_id": "15bea3ae-0251-4d0a-9b1f-d44c26a67449",
+              "user_name": "こうた",
+              "user_image_url": "/profimage/15bea3ae-0251-4d0a-9b1f-d44c26a67449.png",
+              "read": false
+            },
+            // いいね通知(plan_commentが空)
+            {
+              "notification_id": 2,
+              "notification_category": "like",
+              "notification_date": "2019-01-01T18:00:00.000Z",
+              "plan_id": "fc0451268203261d216409a33aea327d",
+              "plan_title": "記念日都内デート",
+              "plan_comment": "",
+              "user_id": "15bea3ae-0251-4d0a-9b1f-d44c26a67449",
+              "user_name": "こうた",
+              "user_image_url": "/profimage/15bea3ae-0251-4d0a-9b1f-d44c26a67449.png",
+              "read": false
+            },
+            // コメント通知
+            {
+              "notification_id": 3,
+              "notification_category": "comment",
+              "notification_date": "2019-01-01T18:00:00.000Z",
+              "plan_id": "fc0451268203261d216409a33aea327d",
+              "plan_title": "記念日都内デート",
+              "plan_comment": "楽しそう！",
+              "user_id": "15bea3ae-0251-4d0a-9b1f-d44c26a67449",
+              "user_name": "こうた",
+              "user_image_url": "/profimage/15bea3ae-0251-4d0a-9b1f-d44c26a67449.png",
+              "read": false
+            }
+          ],
+          "unread_count": 3
+        }
+        ```
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/notifications?limit=10&offset=10' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - notification_list
+                  - unread_count
+                properties:
+                  notification_list:
+                    type: array
+                    description: 通知リスト
+                    items:
+                      type: object
+                      required:
+                        - notification_id
+                        - notification_category
+                        - notification_date
+                        - user_id
+                        - user_name
+                        - user_image_url
+                        - read
+                      properties:
+                        notification_id:
+                          $ref: "#/components/schemas/NotificationId"
+                        notification_category:
+                          $ref: "#/components/schemas/NotificationCategory"
+                        notification_date:
+                          $ref: "#/components/schemas/NotificationDate"
+                        plan_id:
+                          allOf:
+                            - $ref: "#/components/schemas/PlanId"
+                          description: |-
+                            * いいねされたデートプランID
+                            * コメントが投稿されたデートプランID
+                        plan_title:
+                          allOf:
+                            - $ref: "#/components/schemas/Title"
+                          description: |-
+                            * いいねされたデートプラン名
+                            * コメントが投稿されたデートプラン名
+                        plan_comment:
+                          allOf:
+                            - $ref: "#/components/schemas/Comment"
+                          description: |-
+                            * 自分のデートプランに投稿されたコメント内容
+                        user_id:
+                          allOf:
+                            - $ref: "#/components/schemas/TargetUserId"
+                          description: |-
+                            * 自分をフォローしたユーザーID
+                            * 自分のデートプランをいいねしたユーザーID
+                            * 自分のデートプランにコメントを投稿したユーザーID
+                        user_name:
+                          allOf:
+                            - $ref: "#/components/schemas/TargetUserName"
+                          description: |-
+                            * 自分をフォローしたユーザー名
+                            * 自分のデートプランをいいねしたユーザー名
+                            * 自分のデートプランにコメントを投稿したユーザー名
+                        user_image_url:
+                          allOf:
+                            - $ref: "#/components/schemas/TargetUserImageUrl"
+                          description: |-
+                            * 自分をフォローしたユーザーのプロフィール画像URL
+                            * 自分のデートプランをいいねしたユーザーのプロフィール画像URL
+                            * 自分のデートプランにコメントを投稿したユーザーのプロフィール画像URL
+                        read:
+                          $ref: "#/components/schemas/Read"
+                  unread_count:
+                    $ref: "#/components/schemas/UnreadCount"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/notifications/{notification_id}:
+    # ------------------------------
+    # PUT /users/{user_id}/notifications/{notification_id}　通知既読API
+    # ------------------------------
+    put:
+      tags:
+        - Notification
+      summary: 通知既読
+      operationId: N5
+      description: |-
+        既読にする。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/notifications/1' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+        - $ref: "#/components/parameters/NotificationIdPath"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /users/{user_id}/notifications/setting:
+    # ------------------------------
+    # GET /user/:user_id/notifications/setting 通知設定取得API
+    # ------------------------------
+    get:
+      tags:
+        - Notification
+      summary: 通知設定取得
+      operationId: N2
+      description: |-
+        ユーザーの通知設定を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/notifications/setting' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - like
+                  - follow
+                  - comment
+                properties:
+                  like:
+                    $ref: "#/components/schemas/ShouldNotifyLike"
+                  follow:
+                    $ref: "#/components/schemas/ShouldNotifyFollow"
+                  comment:
+                    $ref: "#/components/schemas/ShouldNotifyComment"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+    # ------------------------------
+    # PUT /user/:user_id/notifications/setting 通知設定編集API
+    # ------------------------------
+    put:
+      tags:
+        - Notification
+      summary: 通知設定編集
+      operationId: N3
+      description: |-
+        ユーザーの通知設定を編集する。\
+        設定を更新するフィールドのみリクエストボディに含める。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/notifications/setting' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "like": true,
+                  "follow": false
+                  "comment": true
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                like:
+                  $ref: "#/components/schemas/ShouldNotifyLike"
+                follow:
+                  $ref: "#/components/schemas/ShouldNotifyFollow"
+                comment:
+                  $ref: "#/components/schemas/ShouldNotifyComment"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /information:
+    # ------------------------------
+    # GET /information 運営からのお知らせ一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Notification
+      summary: 運営からのお知らせ一覧取得
+      operationId: N4
+      description: |-
+        運営からのお知らせの一覧を取得する。\
+        通知日時の降順で返却する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/information?limit=10&offset=10' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      parameters:
+        - $ref: "#/components/parameters/UserIdRequiredQuery"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - information_list
+                  - unread_count
+                properties:
+                  information_list:
+                    type: array
+                    description: 運営からのお知らせリスト
+                    items:
+                      type: object
+                      required:
+                        - notification_id
+                        - notification_date
+                        - title
+                        - link
+                        - read
+                      properties:
+                        notification_id:
+                          $ref: "#/components/schemas/NotificationId"
+                        notification_date:
+                          $ref: "#/components/schemas/NotificationDate"
+                        title:
+                          $ref: "#/components/schemas/InformationTitle"
+                        link:
+                          $ref: "#/components/schemas/InformationLink"
+                        read:
+                          $ref: "#/components/schemas/Read"
+                  unread_count:
+                    $ref: "#/components/schemas/UnreadCount"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /questions:
+    # ------------------------------
+    # POST /questions 質問投稿API
+    # ------------------------------
+    post:
+      tags:
+        - Question
+      summary: 質問投稿API
+      operationId: Q1
+      description: |-
+        お問い合わせフォームから質問を投稿する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/questions' \
+              -H 'Contents-Type: application/json' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+              -d \
+                '{
+                  "user_id": "6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2"
+                  "question": "退会するにはどうしたら良いですか？"
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_id
+                - question
+              properties:
+                user_id:
+                  $ref: "#/components/schemas/UserId"
+                question:
+                  $ref: "#/components/schemas/Question"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /questions/faq:
+    # ------------------------------
+    # GET /questions/faq よくある質問一覧取得API
+    # ------------------------------
+    get:
+      tags:
+        - Question
+      summary: よくある質問一覧取得
+      operationId: Q2
+      description: |-
+        よくある質問とそれに対する回答の一覧を【10件】取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl 'http://localhost:3080/questions/faq' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - question_list
+                properties:
+                  question_list:
+                    type: array
+                    description: よくある質問リスト
+                    items:
+                      type: object
+                      required:
+                        - question_id
+                        - question
+                        - answer
+                      properties:
+                        question_id:
+                          $ref: "#/components/schemas/QuestionId"
+                        question:
+                          $ref: "#/components/schemas/Question"
+                        answer:
+                          $ref: "#/components/schemas/Answer"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  # ------------------------------------------------------------------------------------------------------------------------
+  # Admin API
+  # ------------------------------------------------------------------------------------------------------------------------
+
+  /admin/users:
+    # ------------------------------
+    # GET /admin/users ユーザー一覧取得・検索API
+    # ------------------------------
+    get:
+      tags:
+        - User (Admin)
+      summary: ユーザー一覧取得・検索
+      operationId: AU1
+      description: |-
+        ユーザー一覧を取得する。ページネーション及びソート機能あり。\
+        **絞り込み仕様はTBD**
+      x-codeSamples:
+        - lang: Shell
+          label: cURL - 一覧取得
+          source: |
+            curl 'http://localhost:3080/admin/users?limit=10&offset=10&sort=desc' \
+              -H 'Authorization: Bearer xxxxxxxxxx' \
+        - lang: Shell
+          label: cURL - 絞り込み
+          source: |
+            TBD
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - user_list
+                  - total
+                properties:
+                  user_list:
+                    $ref: "#/components/schemas/UserListAdmin"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/users/{user_id}:
+    # ------------------------------
+    # GET /admin/users/:user_id ユーザー詳細取得API
+    # ------------------------------
+    get:
+      tags:
+        - User (Admin)
+      summary: ユーザー詳細取得
+      operationId: AU2
+      description: |-
+        ユーザーの詳細情報を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3080/admin/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - user_id
+                  - name
+                  - onedate_id
+                  - profile
+                  - sex
+                  - age
+                  - area
+                  - address
+                  - mail_address
+                  - user_attr
+                  - status
+                  - user_image_url
+                  - plan_count
+                  - favored_plan_count
+                  - follow_count
+                  - follower_count
+                  - register_date
+                  - update_date
+                properties:
+                  user_id:
+                    $ref: "#/components/schemas/UserId"
+                  name:
+                    $ref: "#/components/schemas/UserName"
+                  onedate_id:
+                    $ref: "#/components/schemas/1dId"
+                  profile:
+                    $ref: "#/components/schemas/Profile"
+                  sex:
+                    $ref: "#/components/schemas/Sex"
+                  age:
+                    $ref: "#/components/schemas/Age"
+                  area:
+                    $ref: "#/components/schemas/Area"
+                  address:
+                    $ref: "#/components/schemas/Address"
+                  mail_address:
+                    $ref: "#/components/schemas/MailAddress"
+                  user_attr:
+                    $ref: "#/components/schemas/UserAttr"
+                  status:
+                    $ref: "#/components/schemas/UserStatus"
+                  user_image_url:
+                    $ref: "#/components/schemas/UserImageUrl"
+                  plan_count:
+                    $ref: "#/components/schemas/PlanCount"
+                  favored_plan_count:
+                    $ref: "#/components/schemas/PlanCount"
+                  follow_count:
+                    $ref: "#/components/schemas/FollowCount"
+                  follower_count:
+                    $ref: "#/components/schemas/FollowerCount"
+                  register_date:
+                    $ref: "#/components/schemas/RegisterDate"
+                  update_date:
+                    $ref: "#/components/schemas/UpdateDate"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/users/{user_id}/attribute:
+    # ------------------------------
+    # PUT /admin/users/:user_id/attribute ユーザー属性編集API
+    # ------------------------------
+    put:
+      tags:
+        - User (Admin)
+      summary: ユーザー属性編集
+      operationId: AU3
+      description: |-
+        ユーザー属性の変更（公式ユーザー登録等）を行う。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/admin/users/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2/attribute' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "user_attr": "official"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - user_attr
+              properties:
+                user_attr:
+                  $ref: "#/components/schemas/UserAttr"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/plans:
+    # ------------------------------
+    # GET /admin/plans デートプラン一覧取得・検索API
+    # ------------------------------
+    get:
+      tags:
+        - Plan (Admin)
+      summary: デートプラン一覧取得・検索
+      operationId: AP1
+      description: |-
+        デートプランの一覧を取得する。ページネーション及びソート機能あり。\
+        **絞り込み仕様はTBD**
+      x-codeSamples:
+        - lang: Shell
+          label: cURL - 一覧取得
+          source: |
+            curl 'http://localhost:3080/admin/plans?limit=10&offset=10&sort=desc'
+        - lang: Shell
+          label: cURL - 絞り込み
+          source: |
+            TBD
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_list
+                  - total
+                properties:
+                  plan_list:
+                    $ref: "#/components/schemas/PlanListAdmin"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+  
+  /admin/spots:
+    # ------------------------------
+    # GET /admin/spots デートプラン一覧取得・検索API
+    # ------------------------------
+    get:
+      tags:
+        - Spots (Admin)
+      summary: デートプラン一覧取得・検索
+      operationId: AP1
+      description: |-
+        デートプランの一覧を取得する。ページネーション及びソート機能あり。\
+        **絞り込み仕様はTBD**
+      x-codeSamples:
+        - lang: Shell
+          label: cURL - 一覧取得
+          source: |
+            curl 'http://localhost:3080/admin/spots?limit=10&offset=10&sort=desc'
+        - lang: Shell
+          label: cURL - 絞り込み
+          source: |
+            TBD
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Sort"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - spot_list
+                  - total
+                properties:
+                  spot_list:
+                    $ref: "#/components/schemas/SpotsListAdmin"
+                  total:
+                    $ref: "#/components/schemas/Total"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/plans/{plan_id}:
+    # ------------------------------
+    # GET /admin/plans/:plan_id デートプラン詳細取得API
+    # ------------------------------
+    get:
+      tags:
+        - Plan (Admin)
+      summary: デートプラン詳細取得
+      operationId: AP2
+      description: |-
+        デートプランの詳細情報を取得する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl 'http://localhost:3080/admin/plans/fc0451268203261d216409a33aea327d'
+      parameters:
+        - $ref: "#/components/parameters/PlanIdPath"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - plan_id
+                  - title
+                  - description
+                  - date
+                  - transportation
+                  - need_time
+                  - status
+                  - datetime_status
+                  - spots
+                  - user_id
+                  - user_name
+                  - like_count
+                  - comment_count
+                  - create_date
+                  - update_date
+                properties:
+                  plan_id:
+                    $ref: "#/components/schemas/PlanId"
+                  title:
+                    $ref: "#/components/schemas/Title"
+                  description:
+                    $ref: "#/components/schemas/Description"
+                  date:
+                    $ref: "#/components/schemas/Date"
+                  transportation:
+                    $ref: "#/components/schemas/Transportation"
+                  need_time:
+                    $ref: "#/components/schemas/NeedTime"
+                  status:
+                    $ref: "#/components/schemas/PlanStatus"
+                  datetime_status:
+                    $ref: "#/components/schemas/PlanDatetimeStatus"
+                  spots:
+                    $ref: "#/components/schemas/Spots"
+                  user_id:
+                    $ref: "#/components/schemas/UserId"
+                  user_name:
+                    $ref: "#/components/schemas/UserName"
+                  like_count:
+                    $ref: "#/components/schemas/LikeCount"
+                  comment_count:
+                    $ref: "#/components/schemas/CommentCount"
+                  create_date:
+                    $ref: "#/components/schemas/CreateDate"
+                  update_date:
+                    $ref: "#/components/schemas/UpdateDate"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/information:
+    # ------------------------------
+    # POST /admin/information 運営からのお知らせ送信API
+    # ------------------------------
+    post:
+      tags:
+        - Notification (Admin)
+      summary: 運営からのお知らせ送信
+      operationId: AN1
+      description: |-
+        運営からのお知らせを送信する。\
+        ユーザーIDを指定しなければ全ユーザーに、指定すれば当該ユーザーのみに送信する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL - 全ユーザーへのお知らせ
+          source: |
+            curl -X POST 'http://localhost:3080/admin/information' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "title": "まもなくキャンペーン開催",
+                  "link": "/information/20190101"
+                }'
+        - lang: Shell
+          label: cURL - ユーザーへの個別お知らせ
+          source: |
+            curl -X POST 'http://localhost:3080/admin/information?user_id=6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "title": "ご登録ありがとうございます！",
+                  "link": "/information/common/welcome"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/UserIdQuery"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - title
+                - link
+              properties:
+                title:
+                  $ref: "#/components/schemas/InformationTitle"
+                link:
+                  $ref: "#/components/schemas/InformationLink"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/questions/{question_id}:
+    # ------------------------------
+    # PUT /admin/questions/:question_id 質問回答登録API
+    # ------------------------------
+    put:
+      tags:
+        - Question (Admin)
+      summary: 質問回答登録
+      operationId: AQ1
+      description: |-
+        ユーザーからの質問に対する回答を投稿する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/admin/questions/1' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "answer": "お問い合わせフォームにて退会希望の旨を記載の上送信してください。"
+                }'
+      parameters:
+        - $ref: "#/components/parameters/QuestionIdPath"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - answer
+              properties:
+                answer:
+                  $ref: "#/components/schemas/Answer"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/questions/{question_id}/faq:
+    # ------------------------------
+    # PUT /admin/questions/:question_id/faq よくある質問に登録API
+    # ------------------------------
+    put:
+      tags:
+        - Question (Admin)
+      summary: よくある質問に登録
+      operationId: AQ2
+      description: |-
+        Q&Aをよくある質問として登録する。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X PUT 'http://localhost:3080/admin/questions/1/faq'
+      parameters:
+        - $ref: "#/components/parameters/QuestionIdPath"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/staff/login:
+    # ------------------------------
+    # POST /admin/staff/login 管理画面ログインAPI
+    # ------------------------------
+    post:
+      tags:
+        - Staff (Admin)
+      summary: 管理画面ログイン
+      operationId: AL1
+      description: |-
+        スタッフが管理画面にログインする。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/admin/staff/login' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "id": "admin",
+                  "password": "password"
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - id
+                - password
+              properties:
+                id:
+                  $ref: "#/components/schemas/StaffId"
+                password:
+                  $ref: "#/components/schemas/StaffPassword"
+      responses:
+        200:
+          description: 成功
+          content:
+            "application/json":
+              schema:
+                type: object
+                required:
+                  - staff_id
+                  - name
+                  - session_key
+                properties:
+                  staff_id:
+                    $ref: "#/components/schemas/StaffId"
+                  name:
+                    $ref: "#/components/schemas/StaffName"
+                  session_key:
+                    $ref: "#/components/schemas/StaffSessionKey"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+  /admin/staff/logout:
+    # ------------------------------
+    # PUT /admin/staff/logout 管理画面ログアウトAPI
+    # ------------------------------
+    put:
+      tags:
+        - Staff (Admin)
+      summary: 管理画面ログアウト
+      operationId: AL2
+      description: |-
+        スタッフが管理画面からログアウトする。
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |
+            curl -X POST 'http://localhost:3080/admin/staff/logout' \
+              -H 'Contents-Type: application/json' \
+              -d \
+                '{
+                  "id": "admin"
+                }'
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  $ref: "#/components/schemas/StaffId"
+      responses:
+        200:
+          $ref: "#/components/responses/Success"
+        400:
+          $ref: "#/components/responses/ValidationError"
+        500:
+          $ref: "#/components/responses/SystemError"
+
+# ------------------------------------------------------------------------------------------------------------------------
+# 共通部品
+# ------------------------------------------------------------------------------------------------------------------------
+
+components:
+  # ------------------------------
+  # クエリパラメータ, パスパラメータ
+  # ------------------------------
+  parameters:
+    Limit:
+      in: query
+      name: limit
+      description: リミット(取得件数) ※デフォルトは20
+      required: false
+      schema:
+        type: number
+        format: 数字
+        example: 10
+    Offset:
+      in: query
+      name: offset
+      description: オフセット(ページの開始位置) ※デフォルトは0
+      required: false
+      schema:
+        type: number
+        format: 数字
+        example: 10
+    Sort:
+      in: query
+      name: sort
+      description: |
+        ソート方法 ※デフォルトは降順
+        * asc: 昇順
+        * desc: 降順
+      required: false
+      schema:
+        type: string
+        format: asc / desc
+        example: asc
+    UserIdQuery:
+      in: query
+      name: user_id
+      description: ユーザーID
+      required: false
+      schema:
+        $ref: "#/components/schemas/UserId"
+    UserIdRequiredQuery:
+      in: query
+      name: user_id
+      description: ユーザーID
+      required: true
+      schema:
+        $ref: "#/components/schemas/UserId"
+    KeywordRequiredQuery:
+      in: query
+      name: keyword
+      description: 検索キーワード
+      required: true
+      schema:
+        $ref: "#/components/schemas/Word"
+    AreaRequiredQuery:
+      in: query
+      name: area
+      description: 都道府県
+      required: true
+      schema:
+        $ref: "#/components/schemas/Area"
+    UserIdPath:
+      in: path
+      name: user_id
+      description: ユーザーID
+      required: true
+      schema:
+        $ref: "#/components/schemas/UserId"
+    NotificationIdPath:
+      in: path
+      name: notification_id
+      description: 通知ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/NotificationId"
+    PlanIdPath:
+      in: path
+      name: plan_id
+      description: デートプランID
+      required: true
+      schema:
+        $ref: "#/components/schemas/PlanId"
+    CommentIdPath:
+      in: path
+      name: comment_id
+      description: コメントID
+      required: true
+      schema:
+        $ref: "#/components/schemas/CommentId"
+    HistoryIdPath:
+      in: path
+      name: history_id
+      description: 検索履歴ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/HistoryId"
+    QuestionIdPath:
+      in: path
+      name: question_id
+      description: 質問ID
+      required: true
+      schema:
+        $ref: "#/components/schemas/QuestionId"
+  # ------------------------------
+  # リクエストボディパラメータ, レスポンスボディパラメータ
+  # ------------------------------
+  schemas:
+    Total:
+      description: 総数
+      type: number
+      format: 数字
+      example: 50
+    UpdateDate:
+      description: 更新日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    UserId:
+      description: ユーザーID
+      type: string
+      format: UUID
+      example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+    TargetUserId:
+      description: 対象のユーザーID
+      type: string
+      format: UUID
+      example: 15bea3ae-0251-4d0a-9b1f-d44c26a67449
+    UserName:
+      description: ユーザー名
+      type: string
+      format: 文字列
+      example: デートマスター
+    TargetUserName:
+      description: 対象のユーザー名
+      type: string
+      format: 文字列
+      example: こうた
+    Sex:
+      description: 性別
+      type: string
+      format: 半角英数字
+      example: man
+    Age:
+      description: 年齢
+      type: number
+      format: 整数
+      example: 25
+    Area:
+      description: 都道府県
+      type: string
+      format: 半角英数字
+      example: tokyo
+    MailAddress:
+      description: メールアドレス
+      type: string
+      format: メールアドレス
+      example: onedate@xxx.com
+    Password:
+      description: パスワード
+      type: string
+      format: 半角英数字
+      example: abcd1234
+    Profile:
+      description: 自己紹介文
+      type: string
+      format: 文字列
+      example: おすすめデートコースをご紹介します。
+    Address:
+      description: 住所
+      type: string
+      format: 文字列
+      example: 東京都渋谷区
+    UserAttr:
+      description: ユーザー属性
+      type: string
+      enum: [ordinary, official]
+      format: 文字列
+      example: ordinary
+    UserStatus:
+      description: ユーザーステータス
+      type: string
+      enum: [public, private, canceled]
+      format: public(公開) / private(非公開) / canceled(退会)
+      example: public
+    UserImageUrl:
+      description: プロフィール画像URL
+      type: string
+      format: URL(パス)
+      example: /profimage/6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2.png
+    TargetUserImageUrl:
+      description: 対象のユーザーのプロフィール画像URL
+      type: string
+      format: URL(パス)
+      example: /profimage/15bea3ae-0251-4d0a-9b1f-d44c26a67449.png
+    RegisterDate:
+      description: ユーザー登録日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    PlanCount:
+      description: 作成したデートプラン数
+      type: number
+      format: 整数
+      example: 10
+    FavoredPlanCount:
+      description: お気に入り登録中のデートプラン数
+      type: number
+      format: 整数
+      example: 10
+    FollowCount:
+      description: フォローしているユーザー数
+      type: number
+      format: 整数
+      example: 10
+    FollowerCount:
+      description: フォロワー数
+      type: number
+      format: 整数
+      example: 10
+    1dId:
+      description: 1DID (カスタムユーザーID)
+      type: string
+      format: 半角英数字
+      example: datemaster
+    PlanId:
+      description: デートプランID
+      type: string
+      format: 半角英数字
+      example: fc0451268203261d216409a33aea327d
+    Title:
+      description: プラン名
+      type: string
+      format: 文字列
+      example: 記念日都内デート
+    Description:
+      description: プランの説明
+      type: string
+      format: 文字列
+      example: 彼女の好きな場所を巡るプラン
+    CreateDate:
+      description: 作成日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    SpotId:
+      description: スポットID
+      type: string
+      format: 半角英数字
+      example: f0cc6cc56eb78c3cd329e3c0a6b2b6a6
+    SpotName:
+      description: スポット名
+      type: string
+      format: 文字列
+      example: 東京タワー
+    SpotDescription:
+      description: スポットの説明
+      type: string
+      format: 文字列
+      example: 東京タワー
+    Latitude:
+      description: 緯度
+      type: number
+      format: 数値
+      example: 35.6585805
+    Longitude:
+      description: 経度
+      type: number
+      format: 数値
+      example: 139.7432442
+    Category:
+      description: カテゴリー
+      type: string
+      format: 文字列
+      example: カフェ
+    OpeningHours:
+      description: 営業時間
+      type: string
+      format: 文字列
+      example: 10:00-19:00
+    Tel:
+      description: 電話番号
+      type: string
+      format: 文字列
+      example: 080-0000-0000
+    SiteUrl:
+      description: サイトURL
+      type: string
+      format: URL
+      example: https://hoge.com
+    Images:
+      description: スポット画像リスト
+      format: 配列
+      type: array
+      items:
+        type: string
+        description: 画像URL
+        format: URL
+      example:
+        - https://maps.googleapis.com/maps/api/place/photo/1.png
+        - https://maps.googleapis.com/maps/api/place/photo/2.png
+    PlaceId:
+      description: GoogleMaps API Place ID
+      type: string
+      format: 半角英数字
+      example: ChIJc_r4wV6LGGAR6WuKXZsOKpI
+    IconUrl:
+      description: GoogleMaps API アイコンURL
+      type: string
+      format: URL
+      example: https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_1/restaurant-1.png
+    Order:
+      description: 順番
+      type: number
+      format: 整数
+      example: 1
+    SpotNeedTime:
+      description: スポット単位の所要時間(分)
+      type: number
+      format: 数値
+      example: 180
+    SpotList:
+      description: デートスポットのリスト
+      type: array
+      items:
+        type: object
+        required:
+          - spot_id
+          - spot_name
+          - description
+          - latitude
+          - longitude
+          - images
+          - category
+          - opening_hours
+          - tel
+          - site_url
+          - place_id
+          - icon_url
+          - create_date
+        properties:
+          spot_id:
+            $ref: "#/components/schemas/SpotId"
+          spot_name:
+            $ref: "#/components/schemas/SpotName"
+          description:
+            $ref: "#/components/schemas/SpotDescription"
+          latitude:
+            $ref: "#/components/schemas/Latitude"
+          longitude:
+            $ref: "#/components/schemas/Longitude"
+          images:
+            $ref: "#/components/schemas/Images"
+          category:
+            $ref: "#/components/schemas/Category"
+          opening_hours:
+            $ref: "#/components/schemas/OpeningHours"
+          tel:
+            $ref: "#/components/schemas/Tel"
+          site_url:
+            $ref: "#/components/schemas/SiteUrl"
+          place_id:
+            $ref: "#/components/schemas/PlaceId"
+          icon_url:
+            $ref: "#/components/schemas/IconUrl"
+          create_date:
+            $ref: "#/components/schemas/CreateDate"
+
+    Spots:
+      description: プランに含まれるデートスポットのリスト
+      type: array
+      items:
+        type: object
+        required:
+          - order
+          - need_time
+          - spot_id
+          - spot_name
+          - description
+          - latitude
+          - longitude
+          - images
+          - category
+          - opening_hours
+          - tel
+          - site_url
+          - place_id
+          - icon_url
+        properties:
+          order:
+            $ref: "#/components/schemas/Order"
+          need_time:
+            $ref: "#/components/schemas/SpotNeedTime"
+          spot_id:
+            $ref: "#/components/schemas/SpotId"
+          spot_name:
+            $ref: "#/components/schemas/SpotName"
+          description:
+            $ref: "#/components/schemas/SpotDescription"
+          latitude:
+            $ref: "#/components/schemas/Latitude"
+          longitude:
+            $ref: "#/components/schemas/Longitude"
+          images:
+            $ref: "#/components/schemas/Images"
+          category:
+            $ref: "#/components/schemas/Category"
+          opening_hours:
+            $ref: "#/components/schemas/OpeningHours"
+          tel:
+            $ref: "#/components/schemas/Tel"
+          site_url:
+            $ref: "#/components/schemas/SiteUrl"
+          place_id:
+            $ref: "#/components/schemas/PlaceId"
+          icon_url:
+            $ref: "#/components/schemas/IconUrl"
+    SimpleSpots:
+      description: プランに含まれるデートスポットのリスト
+      type: array
+      items:
+        type: object
+        required:
+          - order
+          - spot_name
+          - latitude
+          - longitude
+          - place_id
+          - icon_url
+        properties:
+          order:
+            $ref: "#/components/schemas/Order"
+          spot_name:
+            $ref: "#/components/schemas/SpotName"
+          latitude:
+            $ref: "#/components/schemas/Latitude"
+          longitude:
+            $ref: "#/components/schemas/Longitude"
+          place_id:
+            $ref: "#/components/schemas/PlaceId"
+          icon_url:
+            $ref: "#/components/schemas/IconUrl"
+    LikeCount:
+      description: いいね数
+      type: number
+      format: 数字
+      example: 10
+    CommentCount:
+      description: コメント数
+      type: number
+      format: 数字
+      example: 10
+    PlanList:
+      type: array
+      description: デートプランリスト
+      items:
+        type: object
+        required:
+          - plan_id
+          - title
+          - description
+          - status
+          - datetime_status
+          - spots
+          - user_id
+          - user_name
+          - user_image_url
+          - user_attr
+          - like_count
+          - comment_count
+          - create_date
+        properties:
+          plan_id:
+            $ref: "#/components/schemas/PlanId"
+          title:
+            $ref: "#/components/schemas/Title"
+          description:
+            $ref: "#/components/schemas/Description"
+          status:
+            $ref: "#/components/schemas/PlanStatus"
+          datetime_status:
+            $ref: "#/components/schemas/PlanDatetimeStatus"
+          spots:
+            $ref: "#/components/schemas/SimpleSpots"
+          user_id:
+            $ref: "#/components/schemas/UserId"
+          user_name:
+            $ref: "#/components/schemas/UserName"
+          user_image_url:
+            $ref: "#/components/schemas/UserImageUrl"
+          user_attr:
+            $ref: "#/components/schemas/UserAttr"
+          like_count:
+            $ref: "#/components/schemas/LikeCount"
+          comment_count:
+            $ref: "#/components/schemas/CommentCount"
+          create_date:
+            $ref: "#/components/schemas/CreateDate"
+    PlanListAdmin:
+      type: array
+      description: デートプランリスト
+      items:
+        type: object
+        required:
+          - plan_id
+          - title
+          - status
+          - datetime_status
+          - user_id
+          - user_name
+          - like_count
+          - comment_count
+          - create_date
+        properties:
+          plan_id:
+            $ref: "#/components/schemas/PlanId"
+          title:
+            $ref: "#/components/schemas/Title"
+          status:
+            $ref: "#/components/schemas/PlanStatus"
+          datetime_status:
+            $ref: "#/components/schemas/PlanDatetimeStatus"
+          user_id:
+            $ref: "#/components/schemas/UserId"
+          user_name:
+            $ref: "#/components/schemas/UserName"
+          like_count:
+            $ref: "#/components/schemas/LikeCount"
+          comment_count:
+            $ref: "#/components/schemas/CommentCount"
+          create_date:
+            $ref: "#/components/schemas/CreateDate"
+    Date:
+      description: デート日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    NeedTime:
+      description: デート所要時間(分)
+      type: number
+      format: 数値
+      example: 400
+    Transportation:
+      description: 交通手段リスト
+      type: array
+      format: 配列
+      items:
+        type: string
+        description: 交通手段
+        format: 半角英数字
+      example:
+        - car
+        - train
+    PlanStatus:
+      description: デートプランステータス
+      type: string
+      enum: [public, private, deleted]
+      format: public(公開) / private(非公開) / deleted(削除)
+      example: public
+    PlanDatetimeStatus:
+      description: デートプラン日時公開ステータス
+      type: string
+      enum: [public, private, deleted]
+      format: public(公開) / private(非公開) / deleted(削除)
+      example: public
+    IsLiked:
+      description: 自分がいいねしているかどうか
+      type: boolean
+      format: 真偽値
+      example: true
+    IsFollow:
+      description: 自分が当該ユーザーをフォローしているかどうか
+      type: boolean
+      format: 真偽値
+      example: true
+    IsFollowed:
+      description: 自分が当該ユーザーにフォローされているかどうか
+      type: boolean
+      format: 真偽値
+      example: true
+    HistoryId:
+      description: 検索履歴ID
+      type: number
+      format: 数字
+      example: 1
+    Word:
+      description: 検索キーワード
+      type: string
+      format: 文字列
+      example: 食べ歩き
+    SearchDate:
+      description: 検索日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    CommentId:
+      description: コメントID
+      type: string
+      format: 半角英数字
+      example: fb77e9746c677d52a9d6119b5d0b729a
+    Comment:
+      description: コメント内容
+      type: string
+      format: 文字列
+      example: 楽しそう！
+    PostDate:
+      description: コメント投稿日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    FollowDate:
+      description: フォロー日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    FollowedDate:
+      description: フォローされた日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    NotificationId:
+      description: 通知ID
+      type: number
+      format: 数値
+      example: 1
+    NotificationCategory:
+      description: 通知種別
+      type: string
+      format: 半角英数字
+      enum: [follow, like, comment]
+      example: follow
+    NotificationDate:
+      description: 通知日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    Read:
+      description: 未読か既読か
+      type: boolean
+      format: 真理値
+      example: false
+    UnreadCount:
+      description: 未読件数
+      type: number
+      format: 数字
+      example: 5
+    ShouldNotifyLike:
+      description: いいね通知を受け取るか
+      type: boolean
+      format: 真理値
+      example: true
+    ShouldNotifyFollow:
+      description: フォロー通知を受け取るか
+      type: boolean
+      format: 真理値
+      example: true
+    ShouldNotifyComment:
+      description: コメント通知を受け取るか
+      type: boolean
+      format: 真理値
+      example: true
+    InformationTitle:
+      description: 運営からのお知らせタイトル
+      type: string
+      format: 文字列
+      example: まもなくキャンペーン開催
+    InformationLink:
+      description: 運営からのお知らせ詳細ページ(WebView)のURL
+      type: string
+      format: URL(パス)
+      example: /information/20190101
+    QuestionId:
+      description: 質問ID
+      type: number
+      format: 数値
+      example: 1
+    Question:
+      description: 質問内容
+      type: string
+      format: 文字列
+      example: 退会するにはどうしたら良いですか？
+    Answer:
+      description: 回答内容
+      type: string
+      format: 文字列
+      example: お問い合わせフォームにて退会希望の旨を記載の上送信してください。
+    QuestionDate:
+      description: 質問日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    AnswerDate:
+      description: 回答日時
+      type: string
+      format: YYYY-MM-DD HH:mm:dd
+      example: 2019-01-01 18:00:00
+    UserListAdmin:
+      type: array
+      description: ユーザーリスト
+      items:
+        type: object
+        required:
+          - user_id
+          - name
+          - sex
+          - age
+          - mail_address
+          - user_attr
+          - status
+          - user_image_url
+          - register_date
+        properties:
+          user_id:
+            $ref: "#/components/schemas/UserId"
+          name:
+            $ref: "#/components/schemas/UserName"
+          sex:
+            $ref: "#/components/schemas/Sex"
+          age:
+            $ref: "#/components/schemas/Age"
+          mail_address:
+            $ref: "#/components/schemas/MailAddress"
+          user_attr:
+            $ref: "#/components/schemas/UserAttr"
+          status:
+            $ref: "#/components/schemas/UserStatus"
+          user_image_url:
+            $ref: "#/components/schemas/UserImageUrl"
+          register_date:
+            $ref: "#/components/schemas/RegisterDate"
+    StaffId:
+      description: スタッフID
+      type: string
+      format: 半角英数字
+      example: admin
+    StaffPassword:
+      description: 管理画面パスワード
+      type: string
+      format: 半角英数字
+      example: abcd1234
+    StaffName:
+      description: スタッフ名
+      type: string
+      format: 文字列
+      example: スタッフA
+    StaffSessionKey:
+      description: 管理画面セッションキー
+      type: string
+      format: 半角英数字
+      example: bdf0868268115b452f00f4c9f15dc6c3
+  # ------------------------------
+  # レスポンス
+  # ------------------------------
+  responses:
+    Success:
+      description: 成功
+      content:
+        "application/json":
+          schema:
+            type: object
+            required:
+              - code
+              - message
+              - id
+            properties:
+              code:
+                description: ステータスコード
+                type: number
+                format: HTTPステータスコード
+                example: 200
+              message:
+                description: 成功メッセージ
+                type: string
+                format: 文字列
+                example: (対象名)の(登録/編集/削除)に成功しました
+              id:
+                description: 対象のID
+                type: string
+                format: UUID
+                example: 6aa3b8b5-1b5c-40c7-85cc-1cde056eb4c2
+    ValidationError:
+      description: パラメータ不正
+      content:
+        "application/json":
+          schema:
+            type: object
+            required:
+              - code
+              - message
+              - detail_message
+            properties:
+              code:
+                description: ステータスコード
+                type: number
+                format: HTTPステータスコード
+                example: 400
+              message:
+                description: パラメーターが不正です
+                type: string
+                format: 文字列
+                example: パラメーターが不正です
+              detail_message:
+                description: バリデーションエラーリスト
+                type: array
+                items:
+                  type: string
+                  format: 文字列
+                  example: xxxは1文字以上で入力してください
+    SystemError:
+      description: システムエラー
+      content:
+        "application/json":
+          schema:
+            type: object
+            required:
+              - code
+              - message
+              - detail_message
+            properties:
+              code:
+                description: ステータスコード
+                type: number
+                format: HTTPステータスコード
+                example: 500
+              message:
+                description: システムエラーが発生しました
+                type: string
+                format: 文字列
+                example: システムエラーが発生しました
+              detail_message:
+                description: システムエラーメッセージ
+                type: array
+                items:
+                  type: string
+                  format: 文字列

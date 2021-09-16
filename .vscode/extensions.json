@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    // Ruby
+    "rebornix.ruby",
+    // Ruby on Rails
+    "hridoy.rails-snippets",
+    // rufo (Ruby formatter)
+    "mbessey.vscode-rufo",
+    // endwise (Wisely add "end" in Ruby)
+    "kaiwood.endwise"
+  ],
+  "unwantedRecommendations": []
+}

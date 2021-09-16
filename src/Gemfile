@@ -1,0 +1,65 @@
+source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby "2.5.3"
+
+# Rails
+gem "rails", "~> 5.2.2"
+# MySQL
+gem "mysql2", "~> 0.5.2"
+# Puma as the app server
+gem "puma", "~> 3.11"
+# ActiveModel has_secure_password
+gem "bcrypt", "~> 3.1.7"
+# Reduces boot times through caching
+gem "bootsnap", ">= 1.1.0", require: false
+# i18n
+gem "rails-i18n"
+# readline
+gem "rb-readline"
+# migration_comments
+gem "migration_comments"
+# rails_12factor
+gem "rails_12factor"
+# rack-cors
+gem "rack-cors"
+# jwt for jwt tokens
+gem "jwt"
+# to upload images
+gem "carrierwave"
+# to resize images
+gem "mini_magick"
+# エラー回避用
+gem "mimemagic"
+
+group :development, :test do
+  # byebug
+  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  # Ruby formatter
+  gem "rufo"
+end
+
+group :development do
+  # web-console
+  gem "web-console", ">= 3.3.0"
+  # listen
+  gem "listen", ">= 3.0.5", "< 3.2"
+  # Spring speeds up development by keeping your application running in the background
+  gem "spring"
+  # spring-watcher-listen
+  gem "spring-watcher-listen", "~> 2.0.0"
+  # to debug
+  gem "pry-byebug"
+end
+
+group :test do
+  # Adds support for Capybara system testing and selenium driver
+  gem "capybara", ">= 2.15"
+  # selenium-webdriver
+  gem "selenium-webdriver"
+  # Easy installation and use of chromedriver to run system tests with Chrome
+  gem "chromedriver-helper"
+end
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]

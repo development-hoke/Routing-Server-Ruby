@@ -1,0 +1,15 @@
+# Rails
+src/.bundle
+src/vendor
+src/log
+src/tmp
+src/storage
+src/node_modules
+src/yarn-error.log
+src/.byebug_history
+src/config/master.key
+src/public/redoc.html
+src/app/asset/profimage/*
+
+# Data
+docker/db/mysql_data

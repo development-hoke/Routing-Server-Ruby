@@ -1,0 +1,14 @@
+default: &default
+  adapter: mysql2
+  charset: utf8
+  encoding: utf8
+  reconnect: false
+  pool: 5
+
+development:
+  <<: *default
+  host: <%= ENV['DB_HOSTNAME'] %>
+  port: <%= ENV['DB_PORT'] %>
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>

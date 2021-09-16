@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  # --------------------
+  # Application
+  # --------------------
+  app:
+    build: .
+    tty: true
+    container_name: onedate-app
+    ports:
+      - 3080:3000
+    volumes:
+      - ./src:/app
+      - ./openapi.yml:/docs/openapi.yml
+    depends_on:
+      - mysql
+    environment:
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+      DB_NAME: onedate_db
+      DB_USERNAME: root
+      DB_PASSWORD: password
+      TZ: Asia/Tokyo
+  # --------------------
+  # Database
+  # --------------------
+  mysql:
+    image: mysql:5.7
+    container_name: onedate-mysql
+    hostname: mysql
+    volumes:
+      - ./docker/db/mysql_data:/var/lib/mysql
+      - ./docker/db/config/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: onedate_db

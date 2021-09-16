@@ -1,0 +1,12 @@
+{
+  "[ruby]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "cSpell.words": [
+    "Gemfile",
+    "datemaster",
+    "onedate",
+    "profimage"
+  ]
+}
